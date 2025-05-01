@@ -25,7 +25,7 @@ public class Consola {
          }
          // Muestra mensaje de error
          public static void error(String mensaje) {
-                  SALIDA.println("⚠ " + mensaje);
+                  SALIDA.println("\n⚠ " + mensaje + "\n");
          }
          
          // Solicita algo por consola y lee lo que ingresen

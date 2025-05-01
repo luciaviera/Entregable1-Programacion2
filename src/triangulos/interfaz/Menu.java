@@ -1,11 +1,13 @@
 package triangulos.interfaz;
 
+import java.util.List;
 import triangulos.dominio.Jugador;
 import triangulos.dominio.RegistroDeJugadores;
 
 public class Menu {
          
          private static  RegistroDeJugadores registro = new RegistroDeJugadores();
+         private static List<Jugador> jugadores = registro.getJugadores();
          
          
          public static void mostrar() {
@@ -23,12 +25,13 @@ public class Menu {
                                     case "B":
                                                break;
                                     case "C":
-                                               break;
+                                             comenzarPartida();
+                                             break;
                                     case "D":
                                                break;
                                     default:
                                               valida = false;
-                                              Consola.error("Opción inválida. Por favor, intente nuevamente.");
+                                              Consola.error("Opción inválida. Por favor, intente nuevamente");
                                               opcion = Consola.readln("Ingrese la opción deseada: ");
                            }
                   } while (!valida);
@@ -40,14 +43,34 @@ public class Menu {
                   try {
                            Jugador jugador = new Jugador(nombre, edad);
                            registro.registrar(jugador);
-                           Consola.println("Jugador registrado: " + jugador);
-                           Consola.println("\nBIENVENIDO NUEVAMENTE AL MENU");
+                           Consola.println("Jugador registrado: " + jugador + "\n");
+                           Consola.println("BIENVENIDO NUEVAMENTE AL MENU");
                            mostrar();
                   } catch (IllegalArgumentException ex) {
                            Consola.error(ex.getMessage());
-                            Consola.println("\nBIENVENIDO NUEVAMENTE AL MENU");
+                           Consola.println("BIENVENIDO NUEVAMENTE AL MENU");
                            mostrar();
                   }
+         }
+         
+         public static void comenzarPartida(){
+                  
+                  if (!registro.hayMinimo()){
+                           
+                           Consola.error("Necesitas al menos 2 jugadores registrados para empezar a jugar.");
+                           Consola.println("BIENVENIDO NUEVAMENTE AL MENU");
+                           mostrar();
+                           return;
+                  } 
+                  mostrarJugadores();
+         }
+         
+         public static void mostrarJugadores(){
+                  Consola.println("\nJUGADORES REGISTRADOS");
+                  for (int i = 0; i <jugadores.size(); i++) {
+                            Consola.println(i+1 + ". " +jugadores.get(i).getNombre());
+                  }
+
          }
 
 }

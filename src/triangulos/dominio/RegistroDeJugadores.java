@@ -1,6 +1,7 @@
 package triangulos.dominio;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class RegistroDeJugadores {
@@ -12,10 +13,16 @@ public class RegistroDeJugadores {
                         throw new IllegalArgumentException("El jugador ya estaba registrado");
                    }
                    jugadores.add(j);
+                   jugadores.sort(Comparator.comparing(Jugador::getNombre, String.CASE_INSENSITIVE_ORDER));
+         }
+         
+         public boolean hayMinimo() {
+                  return jugadores.size() >= 2;
          }
          
         // Getters
          public List<Jugador> getJugadores(){
              return this.jugadores;
          }
+
 }
