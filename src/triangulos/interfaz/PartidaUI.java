@@ -1,24 +1,13 @@
 package triangulos.interfaz;
+import java.util.List;
 import triangulos.dominio.*;
 
 public class PartidaUI {
-         private  Jugador blanco;
-         private  Jugador negro;
-         private Partida partida;
-         
-         // Contructor
-         public void JuegoUI(Jugador blanco, Jugador negro, ConfiguracionDePartida cfg) {
-                  this.blanco  = blanco;
-                  this.negro   = negro;
-         }
-         
-         //
-         public void jugar() {
+
+         static void iniciarPartida(List<Jugador> judaoresSeleccioandos, ConfiguracionDePartida config) {
+                  Partida partida = new Partida(judaoresSeleccioandos, config);
                   Consola.println("\n¡Comienza la partida!");
-                  Consola.println("Blanco: " + blanco.getNombre() + "  vs  Negro: " + negro.getNombre());
-                  
-
-         }
-
-         
+                  Consola.println("Blanco: " + partida.getBlanco() + "  vs  Negro: " + partida.getNegro());
+ 
+         } 
 }

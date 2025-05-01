@@ -1,6 +1,8 @@
 package triangulos.interfaz;
 
+import java.util.ArrayList;
 import java.util.List;
+import triangulos.dominio.ConfiguracionDePartida;
 import triangulos.dominio.Jugador;
 import triangulos.dominio.RegistroDeJugadores;
 
@@ -8,6 +10,7 @@ public class Menu {
          
          private static  RegistroDeJugadores registro = new RegistroDeJugadores();
          private static List<Jugador> jugadores = registro.getJugadores();
+         private static ConfiguracionDePartida config = new ConfiguracionDePartida();
          
          
          public static void mostrar() {
@@ -64,7 +67,7 @@ public class Menu {
                   } 
                   mostrarJugadores();
                   List<Jugador> judaoresSeleccioandos = seleccionarJugadores();
-                 
+                  PartidaUI.iniciarPartida(judaoresSeleccioandos, config);
          }
          
          
@@ -86,7 +89,10 @@ public class Menu {
                            indiceJ2 = leerIndice("Ingrece el numero correspondiente al segundo jugador: ");
                   }
                   Jugador jugador2 = jugadores.get(indiceJ2 - 1);
-                  return List.of(jugador1, jugador2);
+                  List<Jugador> pareja = new ArrayList<>();
+                  pareja.add(jugador1);
+                  pareja.add(jugador2);
+                  return pareja;
         }
          
          private static  int leerIndice(String prompt) {
