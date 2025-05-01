@@ -24,7 +24,23 @@ public class Jugador {
                     this.edad = edad;
         }
          
-         
-         
+         @Override
+         public boolean equals(Object o) {
+                   if (this == o) return true;
+                   if (!(o instanceof Jugador)) return false;
+                   Jugador otro = (Jugador) o;
+                   return nombre.equalsIgnoreCase(otro.nombre);
+         }
+
+         @Override
+         public int hashCode() {
+                  // Debe usarse la misma base que equals:
+                  return nombre.toLowerCase().hashCode();
+         }
+
+         @Override
+         public String toString() {
+                  return "%s (%d años)".formatted(nombre, edad);
+         }
 }
          

@@ -9,7 +9,7 @@ public class RegistroDeJugadores {
          /** Agrega un jugador al registro; lanza si ya existía */
          public void registrar(Jugador j) {
                   if (jugadores.contains(j)) {
-                        throw new IllegalArgumentException("Ya existe un jugador con ese nombre");
+                        throw new IllegalArgumentException("El jugador ya estaba registrado");
                    }
                    jugadores.add(j);
          }

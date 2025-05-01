@@ -13,7 +13,7 @@ public class Menu {
                   Consola.println("B) Configurar la partida");
                   Consola.println("C) Comienzo de partida");
                   Consola.println("D) Mostrar ranking y racha");
-                  String opcion = Consola.readln("\nIngrese la opción deseada: ").toUpperCase();
+                  String opcion = Consola.readln("\nIngrese la opción deseada: ");
                   boolean valida = true;
                   do {
                            switch (opcion) {
@@ -29,7 +29,7 @@ public class Menu {
                                     default:
                                               valida = false;
                                               Consola.error("Opción inválida. Por favor, intente nuevamente.");
-                                              opcion = Consola.readln("Ingrese la opción deseada: ").toUpperCase();
+                                              opcion = Consola.readln("Ingrese la opción deseada: ");
                            }
                   } while (!valida);
          }
@@ -40,11 +40,15 @@ public class Menu {
                   try {
                            Jugador jugador = new Jugador(nombre, edad);
                            registro.registrar(jugador);
-                           Consola.println("Jugador registrado: " + jugador.getNombre() + " (" + jugador.getEdad() + " años)");
+                           Consola.println("Jugador registrado: " + jugador);
                            Consola.println("\nBIENVENIDO NUEVAMENTE AL MENU");
                            mostrar();
                   } catch (IllegalArgumentException ex) {
                            Consola.error(ex.getMessage());
+                            Consola.println("\nBIENVENIDO NUEVAMENTE AL MENU");
+                           mostrar();
                   }
          }
+         
+         
 }

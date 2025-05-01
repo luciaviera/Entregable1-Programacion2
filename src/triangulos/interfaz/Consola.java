@@ -33,7 +33,7 @@ public class Consola {
             SALIDA.print(prompt);
             String linea;
             do {
-                linea = ENTRADA.nextLine().trim();
+                linea = ENTRADA.nextLine().trim().toUpperCase();
             } while (linea.isEmpty());
             return linea;
         }
