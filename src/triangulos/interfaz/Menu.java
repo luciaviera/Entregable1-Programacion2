@@ -63,17 +63,9 @@ public class Menu {
                            return;
                   } 
                   mostrarJugadores();
-                  Consola.println("\nSeleccion de jugadores: ");
-                  int indiceJ1 = leerIndice("Ingrece el numero correspondiente al primer jugador ");
-                   int indiceJ2 = leerIndice("Ingrece el numero correspondiente al segundo jugador ");
-                  Jugador jugador1 = jugadores.get(indiceJ1 - 1);
-                  while (indiceJ1 == indiceJ2) {
-                      Consola.error("No puede ser el mismo jugador. Elige otro.");
-                      indiceJ2 = leerIndice("Ingrece el numero correspondiente al segundo jugador ");
-                  }
-                  Jugador jugador2 = jugadores.get(indiceJ2 - 1);
+                  List<Jugador> judaoresSeleccioandos = seleccionarJugadores();
+                 
          }
-         
          
          
          public static void mostrarJugadores(){
@@ -82,19 +74,31 @@ public class Menu {
                             Consola.println(i+1 + ". " +jugadores.get(i).getNombre());
                   }
          }
-         
-        private static  int leerIndice(String prompt) {
-                while (true) {
-                    String line = Consola.readln(prompt);
-                    try {
-                        int val = Integer.parseInt(line);
-                        if (val >= 1 && val <= jugadores.size()) {
-                            return val;
-                        }
-                    } catch (NumberFormatException ignored) { }
-                    Consola.error("Por favor ingresa un número entre 1 y " + jugadores.size()+ ".");
-                }
-         }
-         
 
+        
+         private static List<Jugador> seleccionarJugadores() {
+                  Consola.println("\nSeleccion de jugadores: ");
+                  int indiceJ1 = leerIndice("Ingrece el numero correspondiente al primer jugador: ");
+                  int indiceJ2 = leerIndice("Ingrece el numero correspondiente al segundo jugador: ");
+                  Jugador jugador1 = jugadores.get(indiceJ1 - 1);
+                  while (indiceJ1 == indiceJ2) {
+                           Consola.error("No puede ser el mismo jugador. Elige otro.");
+                           indiceJ2 = leerIndice("Ingrece el numero correspondiente al segundo jugador: ");
+                  }
+                  Jugador jugador2 = jugadores.get(indiceJ2 - 1);
+                  return List.of(jugador1, jugador2);
+        }
+         
+         private static  int leerIndice(String prompt) {
+                  while (true) {
+                           String line = Consola.readln(prompt);
+                           try {
+                                    int val = Integer.parseInt(line);
+                                    if (val >= 1 && val <= jugadores.size()) {
+                                        return val;
+                                    }
+                            } catch (NumberFormatException ignored) { }
+                                    Consola.error("Por favor ingresa un número entre 1 y " + jugadores.size()+ ".");
+                           }
+          }
 }
