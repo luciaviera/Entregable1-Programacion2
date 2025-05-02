@@ -9,28 +9,26 @@ public class PartidaUI {
                   Consola.println("\n¡Comienza la partida!");
                   Consola.println("Blanco: " + partida.getBlanco() + "  vs  Negro: " + partida.getNegro()+"\n");
                   imprimirPuntuaciones();
-                  imprimirTablero();
+                  imprimirTablero(partida.getTablero().getTableroInicial());
          }
          
-         public static void imprimirTablero() {
+         public static void imprimirTablero(char[][] tablero) {
                   String[] columnas = {"A","B","C","D","E","F","G","H","I","J","K","M","N"};
                   for (String col : columnas) {
                             Consola.print(col + " ");
                   }
                   Consola.println("\n");
-                  Tablero tablero = new Tablero();
-                  char[][] tableroVacio = tablero.getTableroInicial();
                   // Imprime la matriz
-                  for (int i = 0; i < tableroVacio.length; i++) {
-                        for (int j = 0; j < tableroVacio[i].length; j++) {
-                            Consola.print(tableroVacio[i][j] + " ");
+                  for (int i = 0; i < tablero.length; i++) {
+                        for (int j = 0; j < tablero[i].length; j++) {
+                            Consola.print(tablero[i][j] + " ");
                         }
                         Consola.println("");
                     }
         }
          
          public static void imprimirPuntuaciones() {
-                  Consola.println("\n Cantidad Blanco : ");
+                  Consola.println("Cantidad Blanco : ");
                   Consola.println(" Cantidad Negro : " + "\n");
          }
 }

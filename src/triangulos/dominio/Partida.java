@@ -19,6 +19,7 @@ public class Partida {
                   this.blanco = jugadores.get(0);
                   this.negro  = jugadores.get(1);
                   this.config  =  config;
+                  char[][] tableroInicial = tablero.getTableroInicial();
          }
          
          //Getters
@@ -28,4 +29,8 @@ public class Partida {
          public Jugador getNegro() {
                   return this.negro;
          }
+         public Tablero getTablero() {
+                  return this.tablero;
+         }
+         
 }  
