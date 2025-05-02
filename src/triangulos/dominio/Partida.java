@@ -25,8 +25,7 @@ public class Partida {
          public Jugador getBlanco() {
                   return this.blanco;
          }
-
-    public Jugador getNegro() {
-         return this.negro;
-    }
+         public Jugador getNegro() {
+                  return this.negro;
+         }
 }  
