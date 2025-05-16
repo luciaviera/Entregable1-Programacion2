@@ -1,8 +1,13 @@
 
 package triangulos.dominio;
 
+import java.util.ArrayList;
+
 public class Tablero {
-         //Creacion del tablero
+         
+         private ArrayList<Banda> bandas; 
+
+         //Representacion del tablero
          private char[][] tableroInicial= {
             //A  B   C  D  E   F  G  H   I    J  K  M  N
             { ' ', ' ', ' ', '*', ' ', '*', ' ', '*', ' ', '*', ' ', ' ', ' ' }, // fila 0
@@ -18,13 +23,35 @@ public class Tablero {
             { ' ', ' ', '*', ' ', '*', ' ', '*', ' ', '*', ' ', '*', ' ', ' ' }, // fila 10
             { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, // fila 11
             { ' ', ' ', ' ', '*', ' ', '*', ' ', '*', ' ', '*', ' ', ' ', ' ' }  // fila 12
-        };
+         };
           
          public char[][] getTableroInicial() {
                   return this.tableroInicial;
          }
+         
+         public ArrayList<Banda>  getBandas() {
+                  return bandas;
+         }
 
-    public char[][] render() {
-        throw new UnsupportedOperationException("Not supported yet."); 
-    }
+         public boolean agregarBanda(Movimiento mov, char turno, ConfiguracionDePartida config) {
+                  Banda banda = Banda.crear(mov, turno);
+                  boolean agregada = false;
+                  if (this.bandas.isEmpty()) {
+                           this.bandas.add(banda);
+                           agregada = true;
+                  }
+                  if (config.hayReglaDeContacto()) {
+                           for (Banda b : this.bandas) {
+                                    if (b.compartePuntosCon(banda)) {
+                                             bandas.add(banda);
+                                             agregada = true;
+                                    }
+                           }
+                  } else {
+                           bandas.add(banda);
+                           agregada = true;
+                  }
+                  return agregada;
+         }
 }
+
