@@ -7,6 +7,7 @@ public class Jugador {
     
          private String nombre;
          private int edad;
+         private char color;
          
          //Getters y setters
          public String getNombre() {
@@ -14,6 +15,14 @@ public class Jugador {
          }
          public int getEdad() {
                  return edad;
+         }
+         
+         public int getColor() {
+                 return color;
+         }
+         
+         public void setColor(char color) {
+                  this.color = color;
          }
          
          //Constructor

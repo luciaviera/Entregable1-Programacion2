@@ -23,4 +23,8 @@ public class Tablero {
          public char[][] getTableroInicial() {
                   return this.tableroInicial;
          }
+
+    public char[][] render() {
+        throw new UnsupportedOperationException("Not supported yet."); 
+    }
 }

@@ -3,7 +3,6 @@ package triangulos.dominio;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class Partida {
          private  Jugador blanco;
@@ -11,15 +10,23 @@ public class Partida {
          private ConfiguracionDePartida config;
          private  Tablero tablero = new Tablero();         
          private  List<Movimiento> historial = new ArrayList<>();
+         private char turno;
+         private Jugador ganador;
+         private boolean partidaTerminada = false;
          
          //Constructor
          public Partida(List<Jugador> jugadores, ConfiguracionDePartida config) {
+                  
                   // Elegir blanco y negro aleatoriamente
                   Collections.shuffle(jugadores);
                   this.blanco = jugadores.get(0);
                   this.negro  = jugadores.get(1);
                   this.config  =  config;
-                  char[][] tableroInicial = tablero.getTableroInicial();
+                  tablero.getTableroInicial();
+                  
+                  //Asignarle los colores correspondientes a cada jugador
+                  this.blanco.setColor('B');
+                  this.negro.setColor('N');
          }
          
          //Getters
@@ -32,5 +39,27 @@ public class Partida {
          public Tablero getTablero() {
                   return this.tablero;
          }
+         public Jugador getGanador() {
+                  return this.ganador;
+         }
+         public char getTurno() {
+                  return this.turno;
+         }
          
+         public void iniciarPartida () {
+                    
+         }
+         
+         public boolean haTerminado() {
+                  return this.partidaTerminada;
+         }
+
+         public ConfiguracionDePartida getConfig() {
+            return config;
+         }
+
+         public void abandonar(Jugador actual) {
+                  throw new UnsupportedOperationException("Not supported yet."); 
+         }
+
 }  

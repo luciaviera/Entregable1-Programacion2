@@ -8,12 +8,12 @@ import triangulos.dominio.RegistroDeJugadores;
 
 public class Menu {
          
-         private static  RegistroDeJugadores registro = new RegistroDeJugadores();
-         private static List<Jugador> jugadores = registro.getJugadores();
-         private static ConfiguracionDePartida config = new ConfiguracionDePartida();
+         private  RegistroDeJugadores registro = new RegistroDeJugadores();
+         private  List<Jugador> jugadores = registro.getJugadores();
+         private ConfiguracionDePartida config = new ConfiguracionDePartida();
          
          
-         public static void mostrar() {
+         public void mostrar() {
                   Consola.println("A) Registrar jugador");
                   Consola.println("B) Configurar la partida");
                   Consola.println("C) Comienzo de partida");
@@ -40,7 +40,7 @@ public class Menu {
                   } while (!valida);
          }
          
-         public static void registrarJugador(){
+         private void registrarJugador(){
                   String nombre = Consola.readln("\nIngrese el nombre del jugador: ");
                   int edad = Integer.parseInt(Consola.readln("Ingrese la edad del jugador: "));
                   try {
@@ -56,7 +56,7 @@ public class Menu {
                   }
          }
          
-         public static void comenzarPartida(){
+         private void comenzarPartida(){
                   
                   if (!registro.hayMinimo()){
                            
@@ -67,11 +67,12 @@ public class Menu {
                   } 
                   mostrarJugadores();
                   List<Jugador> judaoresSeleccioandos = seleccionarJugadores();
-                  PartidaUI.iniciarPartida(judaoresSeleccioandos, config);
+                  PartidaUI partidaUI = new PartidaUI();
+                  partidaUI.iniciarPartida(judaoresSeleccioandos, config);
          }
          
          
-         public static void mostrarJugadores(){
+         public  void mostrarJugadores(){
                   Consola.println("\nJUGADORES REGISTRADOS");
                   for (int i = 0; i <jugadores.size(); i++) {
                             Consola.println(i+1 + ". " +jugadores.get(i).getNombre());
@@ -79,7 +80,7 @@ public class Menu {
          }
 
         
-         private static List<Jugador> seleccionarJugadores() {
+         private  List<Jugador> seleccionarJugadores() {
                   Consola.println("\nSeleccion de jugadores: ");
                   int indiceJ1 = leerIndice("Ingrece el numero correspondiente al primer jugador: ");
                   int indiceJ2 = leerIndice("Ingrece el numero correspondiente al segundo jugador: ");
@@ -95,7 +96,7 @@ public class Menu {
                   return pareja;
         }
          
-         private static  int leerIndice(String prompt) {
+         private  int leerIndice(String prompt) {
                   while (true) {
                            String line = Consola.readln(prompt);
                            try {
