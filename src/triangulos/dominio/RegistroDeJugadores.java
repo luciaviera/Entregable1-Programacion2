@@ -21,14 +21,14 @@ public class RegistroDeJugadores {
                   jugadores.sort(Comparator.comparing(Jugador::getNombre, String.CASE_INSENSITIVE_ORDER));
          }
          
-         public boolean hayMinimo() {
-                  return jugadores.size() >= 2;
+         public void hayMinimo() {
+                   if (this.jugadores.size() < 2) throw new IllegalArgumentException("Es necesario tener al menos dos jugadores registrados para poder jugar");
          }
          
          public Jugador[] seleccionarJugadores(int indiceJ1, int indiceJ2){
                   if (indiceJ1 == indiceJ2) throw new IllegalArgumentException("Los jugadores no pueden ser el mismo");
-                  Jugador jugador1 = jugadores.get(indiceJ1 - 1);
-                  Jugador jugador2 = jugadores.get(indiceJ2 - 1);
+                  Jugador jugador1 = this.jugadores.get(indiceJ1 - 1);
+                  Jugador jugador2 = this.jugadores.get(indiceJ2 - 1);
                   
                   Jugador[] seleccionados = {jugador1, jugador2};
                   return seleccionados;
