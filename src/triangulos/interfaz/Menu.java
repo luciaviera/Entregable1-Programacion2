@@ -9,7 +9,6 @@ import triangulos.dominio.RegistroDeJugadores;
 public class Menu {
          
          private  RegistroDeJugadores registro = new RegistroDeJugadores();
-         private  List<Jugador> jugadores = registro.getJugadores();
          private ConfiguracionDePartida config = new ConfiguracionDePartida();
          
          
@@ -49,8 +48,8 @@ public class Menu {
                            Consola.println("Jugador registrado: " + jugador + "\n");
                            Consola.println("BIENVENIDO NUEVAMENTE AL MENU");
                            mostrar();
-                  } catch (IllegalArgumentException ex) {
-                           Consola.error(ex.getMessage());
+                  } catch (IllegalArgumentException e) {
+                           Consola.error(e.getMessage());
                            Consola.println("BIENVENIDO NUEVAMENTE AL MENU");
                            mostrar();
                   }
@@ -65,14 +64,16 @@ public class Menu {
                            mostrar();
                            return;
                   } 
+                  
                   mostrarJugadores();
-                  List<Jugador> judaoresSeleccioandos = seleccionarJugadores();
+                  Jugador[] judaoresSeleccioandos = seleccionarJugadores();
                   PartidaUI partidaUI = new PartidaUI();
                   partidaUI.iniciarPartida(judaoresSeleccioandos, config);
          }
          
          
          public  void mostrarJugadores(){
+                  ArrayList<Jugador> jugadores = registro.getJugadores();
                   Consola.println("\nJUGADORES REGISTRADOS");
                   for (int i = 0; i <jugadores.size(); i++) {
                             Consola.println(i+1 + ". " +jugadores.get(i).getNombre());
@@ -80,32 +81,33 @@ public class Menu {
          }
 
         
-         private  List<Jugador> seleccionarJugadores() {
+         private  Jugador[] seleccionarJugadores() {
                   Consola.println("\nSeleccion de jugadores: ");
-                  int indiceJ1 = leerIndice("Ingrece el numero correspondiente al primer jugador: ");
-                  int indiceJ2 = leerIndice("Ingrece el numero correspondiente al segundo jugador: ");
-                  Jugador jugador1 = jugadores.get(indiceJ1 - 1);
-                  while (indiceJ1 == indiceJ2) {
-                           Consola.error("No puede ser el mismo jugador. Elige otro.");
-                           indiceJ2 = leerIndice("Ingrece el numero correspondiente al segundo jugador: ");
+                  int indiceJ1 = this.leerIndice("Ingrese el numero correspondiente al primer jugador: ");
+                  int indiceJ2 = this.leerIndice("Ingrece el numero correspondiente al segundo jugador: ");
+                  
+                  boolean seleccionados = false;
+                  Jugador[] jugadores = null;
+                  while (!seleccionados) { 
+                           try {
+                                    jugadores = registro.seleccionarJugadores(indiceJ1, indiceJ2);
+                                    seleccionados = true;
+                           } catch (IllegalArgumentException e) {
+                                    Consola.error(e.getMessage());
+                           }
                   }
-                  Jugador jugador2 = jugadores.get(indiceJ2 - 1);
-                  List<Jugador> pareja = new ArrayList<>();
-                  pareja.add(jugador1);
-                  pareja.add(jugador2);
-                  return pareja;
+                  return jugadores;
         }
          
-         private  int leerIndice(String prompt) {
-                  while (true) {
-                           String line = Consola.readln(prompt);
-                           try {
-                                    int val = Integer.parseInt(line);
-                                    if (val >= 1 && val <= jugadores.size()) {
-                                        return val;
-                                    }
-                            } catch (NumberFormatException ignored) { }
-                                    Consola.error("Por favor ingresa un número entre 1 y " + jugadores.size()+ ".");
-                           }
-          }
+         private int leerIndice(String mensaje) {
+                  String entrada = Consola.readln(mensaje);
+                  int indice = 0;
+                  try {
+                           indice = Integer.parseInt(entrada); 
+                           
+                  } catch (NumberFormatException e) {
+                           Consola.error("Ingrese un numero");
+                  }
+                  return indice;
+         }
 }

@@ -1,36 +1,38 @@
 package triangulos.interfaz;
+
 import java.util.List;
 import triangulos.dominio.*;
+import triangulos.interfaz.Consola;
 
 public class PartidaUI {
          private Partida partida;
-         private String turno;
-
-         private boolean jugadaValida = false;
          
-         
-         public void iniciarPartida(List<Jugador> judaoresSeleccioandos, ConfiguracionDePartida config) {
-                  this.partida = new Partida(judaoresSeleccioandos, config);
-                  Consola.println("\n¡Comienza la partida!");
+         public void iniciarPartida(Jugador[] judaoresSeleccioandos, ConfiguracionDePartida config) {
+                  try {
+                           this.partida = new Partida(judaoresSeleccioandos, config);
+                            Consola.println("\n¡Comienza la partida!");
 
-                  Consola.println("Blanco: " + partida.getBlanco() + "  vs  Negro: " + partida.getNegro()+"\n");
-                  imprimirPuntuaciones(partida);
-                  imprimirTablero(partida.getTablero().getTableroInicial());
-                  
-                  //Loop de turnos
-                   while (!partida.haTerminado()) {
-                            realizarJugada();
-                  }
-                   
-                  mostrarResultados();    
+                           Consola.println("Blanco: " + partida.getBlanco() + "  vs  Negro: " + partida.getNegro()+"\n");
+                           imprimirPuntuaciones(partida);
+                           imprimirTablero(partida.getTablero().getTableroInicial());
+
+                           //Loop de turnos
+                           while (!partida.haTerminado()) {
+                                    this.ingresarJugada();
+                           }
+                           
+                            mostrarResultados();    
+                            
+                  } catch (IllegalArgumentException e) {
+                           Consola.print(e.getMessage());
+                  } 
          }
          
-         // FALTA IMPLEMENTAR QUE TENGA DATOS REALES
          private void imprimirPuntuaciones(Partida partida) {
-                  Consola.println("Cantidad Blanco : ");
-                  Consola.println("Cantidad Negro : " + "\n");
+                  Consola.println("Cantidad Blanco : " + partida.getPuntajeBlanco());
+                  Consola.println("Cantidad Negro : " + partida.getPuntajeNegro() + "\n");
          }
-         
+
          private  void imprimirTablero(char[][] tablero) {
                   String[] columnas = {"A","B","C","D","E","F","G","H","I","J","K","M","N"};
                   for (String col : columnas) {
@@ -45,57 +47,37 @@ public class PartidaUI {
                         Consola.println("");
                     }
         }
-         
-         private void realizarJugada() {
-                  Jugador jugando = jugadorActual();
-                  String entrada = Consola.readln("Jugador " + turno + " (" + jugando.getNombre() + ") es su turno. Ingrese su jugada :").toUpperCase();
-                  procesarJugada(entrada,jugando); 
+
+         private void ingresarJugada() {
+                  String entrada = Consola.readln("Jugador " + this.imprimirColor() + " (" + partida.jugadorActual().getNombre() + ") es su turno. Ingrese su jugada :");
+                  procesarJugada(entrada); 
          }
-         
-         private Jugador jugadorActual() {
-                  if (partida.getTurno() == 'B') {
-                           this.turno = "Blanco";
-                           return partida.getBlanco();
+
+         private String imprimirColor() {
+                  String color;
+                  if (this.partida.getTurno() == 'B') {
+                           color = "Blanco";
                   } else {
-                           this.turno = "Negro";
-                           return partida.getNegro();
+                           color = "Negro";
                   }
+                  return color;
          }
          
-         private void procesarJugada(String entrada, Jugador jugador) {
+         private void procesarJugada(String entrada) {
+                  boolean jugadaValida = false;
                   while (!jugadaValida) {
-                           switch (entrada) {
-                                    // rendición
-                                    case "X" -> {                    
-                                             Consola.println(jugador.getNombre() + " se ha rendido.");
+                           if (entrada.equals("H")) {
+                                    jugadaValida = true;
+                           } else {
+                                    try {
+                                             partida.realizarJuegada(entrada, partida.getTablero());
                                              jugadaValida = true;
-                                             }
-                                    // opción de historial
-                                    case "H" -> mostrarHistorial();  
-                                    default -> jugadaValida = validarJugada(entrada);
-                           }
-                           if (!jugadaValida) {
-                                entrada = Consola.readln("Accion invalida, por favor reingrese: ");
+                                     } catch (IllegalArgumentException e) {
+                                                Consola.error(e.getMessage());
+                                                entrada = Consola.readln("Accion invalida, por favor reingrese: ");
+                                    }
                            }
                   }
-         }
-         
-         private boolean validarJugada(String entrada) {
-                  boolean valida;
-                  if(entrada.length() > 4 || (entrada.length()==4 && !partida.getConfig().esLargoVariable()) ){
-                        valida = false;
-                  } else {
-                           // Las conidiciones son negativas, es decir, si la cumplen no me sirve y deja de ser valida la entrada
-                           char col  = entrada.charAt(0);
-                           char fila = entrada.charAt(1);
-                           char dir  = entrada.charAt(2); 
-                           valida = !( (col < 'A' || col > 'M')  || (fila < '1' || fila > '7') || ("QEDCZA".indexOf(dir) == -1) ); 
-                           if (entrada.length() == 4) {
-                                    char largo = entrada.charAt(3);
-                                    valida = !(largo < '1' || largo > '4') ;
-                           } 
-                  }
-                  return valida;
          }
          
          private void mostrarResultados() {
@@ -106,11 +88,6 @@ public class PartidaUI {
                            Consola.println("Empate.");
                   }
          }
-         
-         
 
-         private void mostrarHistorial() {
-                  throw new UnsupportedOperationException("Not supported yet."); 
-         }
 
 }
