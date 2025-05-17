@@ -41,7 +41,7 @@ public class Jugador {
 
          @Override
          public String toString() {
-                  String str = this.getNombre() + " (" + this.getEdad() +") ";
+                  String str = this.getNombre() + " (" + this.getEdad() +" AÑOS) ";
                   return str;
          }
 }

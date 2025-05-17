@@ -71,17 +71,16 @@ public class PartidaUI {
          }
 
          private String mostrarHistorial(){
-             
+             return null; 
          }
          
          private void mostrarResultados() {
-                  if (partida.getGanador() != null) {
-                           Consola.println("¡Ganó " + partida.getGanador().getNombre() + "!");
+                  if (this.partida.getGanador() != null) {
+                           Consola.println("¡Ganó " + this.partida.getGanador().getNombre() + "!");
                            //FALTA IMPLEMENTAR EFECTO CONFETI
                   } else {
                            Consola.println("Empate.");
                   }
          }
-
 
 }
