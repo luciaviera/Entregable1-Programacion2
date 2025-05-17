@@ -1,36 +1,29 @@
 package triangulos.interfaz;
 
-import java.util.List;
 import triangulos.dominio.*;
-import triangulos.interfaz.Consola;
 
 public class PartidaUI {
          private Partida partida;
          
          public void iniciarPartida(Jugador[] judaoresSeleccioandos, ConfiguracionDePartida config) {
-                  try {
-                           this.partida = new Partida(judaoresSeleccioandos, config);
-                            Consola.println("\n¡Comienza la partida!");
+                  
+                  this.partida = new Partida(judaoresSeleccioandos, config);
+                  Consola.println("\n¡Comienza la partida!");
 
-                           Consola.println("Blanco: " + partida.getBlanco() + "  vs  Negro: " + partida.getNegro()+"\n");
-                           imprimirPuntuaciones(partida);
-                           imprimirTablero(partida.getTablero().getTableroInicial());
+                  Consola.println("Blanco: " + this.partida.getBlanco() + "  vs  Negro: " + this.partida.getNegro()+"\n");
+                  this.imprimirPuntuaciones();
+                  this.imprimirTablero(this.partida.getTablero().getTableroInicial());
 
-                           //Loop de turnos
-                           while (!partida.haTerminado()) {
-                                    this.ingresarJugada();
-                           }
-                           
-                            mostrarResultados();    
-                            
-                  } catch (IllegalArgumentException e) {
-                           Consola.print(e.getMessage());
-                  } 
+                  //Loop de turnos
+                  while (!this.partida.haTerminado()) {
+                           this.ingresarJugada();
+                  }        
+                  this.mostrarResultados();    
          }
          
-         private void imprimirPuntuaciones(Partida partida) {
-                  Consola.println("Cantidad Blanco : " + partida.getPuntajeBlanco());
-                  Consola.println("Cantidad Negro : " + partida.getPuntajeNegro() + "\n");
+         private void imprimirPuntuaciones() {
+                  Consola.println("Cantidad Blanco : " + this.partida.getPuntajeBlanco());
+                  Consola.println("Cantidad Negro : " + this.partida.getPuntajeNegro() + "\n");
          }
 
          private  void imprimirTablero(char[][] tablero) {
@@ -49,8 +42,22 @@ public class PartidaUI {
         }
 
          private void ingresarJugada() {
-                  String entrada = Consola.readln("Jugador " + this.imprimirColor() + " (" + partida.jugadorActual().getNombre() + ") es su turno. Ingrese su jugada :");
-                  procesarJugada(entrada); 
+                  String entrada = Consola.readln("Jugador " + this.imprimirColor() + " (" + this.partida.jugadorActual().getNombre() + ") es su turno. Ingrese su jugada :");
+                  boolean jugadaValida = false;
+                  while (!jugadaValida) {
+                           if (entrada.equals("H")) {
+                                    this.mostrarHistorial();
+                                    jugadaValida = true;
+                           } else {
+                                    try {
+                                             this.partida.realizarJuegada(entrada, this.partida.getTablero());
+                                             jugadaValida = true;
+                                    } catch (IllegalArgumentException e) {
+                                             Consola.error(e.getMessage());
+                                             entrada = Consola.readln("Accion invalida, por favor reingrese: ");
+                                    }
+                           }
+                  }
          }
 
          private String imprimirColor() {
@@ -62,22 +69,9 @@ public class PartidaUI {
                   }
                   return color;
          }
-         
-         private void procesarJugada(String entrada) {
-                  boolean jugadaValida = false;
-                  while (!jugadaValida) {
-                           if (entrada.equals("H")) {
-                                    jugadaValida = true;
-                           } else {
-                                    try {
-                                             partida.realizarJuegada(entrada, partida.getTablero());
-                                             jugadaValida = true;
-                                     } catch (IllegalArgumentException e) {
-                                                Consola.error(e.getMessage());
-                                                entrada = Consola.readln("Accion invalida, por favor reingrese: ");
-                                    }
-                           }
-                  }
+
+         private String mostrarHistorial(){
+             
          }
          
          private void mostrarResultados() {
