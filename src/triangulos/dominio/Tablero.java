@@ -40,7 +40,7 @@ public class Tablero {
                            this.bandas.add(banda);
                            agregada = true;
                   }
-                  if (config.hayReglaDeContacto()) {
+                  if (config.isReglaDeContacto()) {
                            for (Banda b : this.bandas) {
                                     if (b.compartePuntosCon(banda)) {
                                              bandas.add(banda);

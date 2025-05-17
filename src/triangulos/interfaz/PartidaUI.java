@@ -54,7 +54,7 @@ public class PartidaUI {
                                              jugadaValida = true;
                                     } catch (IllegalArgumentException e) {
                                              Consola.error(e.getMessage());
-                                             entrada = Consola.readln("Accion invalida, por favor reingrese: ");
+                                             entrada = Consola.readln("Por favor reingrese: ");
                                     }
                            }
                   }
