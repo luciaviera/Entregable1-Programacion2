@@ -13,10 +13,15 @@ public class PartidaUI {
                   Consola.println("Blanco: " + this.partida.getBlanco() + "  vs  Negro: " + this.partida.getNegro()+"\n");
                   this.imprimirPuntuaciones();
                   this.imprimirTablero(this.partida.getTablero().getRepTablero());
+                  
+                  Consola.println("\nLas jugadas deben tener el siguiente formato: <Columna><Fila><Dirección>[Largo]");
+                  Consola.println("Columna: A–M, Fila: 1–7, Dirección: Q/E/D/C/Z/A, Largo (Debe estar activado el largo variable de bandas): 1–4");
+                  Consola.print("Ejemplo: A4D o C3Q2\n");
 
                   //Loop de turnos
                   while (!this.partida.haTerminado()) {
                            this.ingresarJugada();
+                           this.imprimirTablero(this.partida.getTablero().getRepTablero());
                   }        
                   this.mostrarResultados();    
          }

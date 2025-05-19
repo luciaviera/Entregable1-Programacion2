@@ -74,6 +74,9 @@ public class Partida {
                   if (entrada.equals("X")) {
                            this.abandonar();
                   } else {
+                           if (entrada.length() == 4 && !this.config.isLargoVariable()){
+                                    throw new IllegalArgumentException("No ingrese el largo de la banda, largo variable esta desactivado");
+                           }
                            Movimiento mov = Movimiento.crear (entrada, tablero);
                            //Verifico si la jugada es admisible en el tablero actual y de serlo me la agrega
                            tablero.agregarBanda(mov, this.turno, this.config);
