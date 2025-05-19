@@ -65,6 +65,7 @@ public class PartidaUI {
                            } catch (IllegalArgumentException e) {
                                     Consola.error(e.getMessage());
                                     entrada = Consola.readln("Por favor reingrese: ");
+                                    Consola.println("");
                            }
                   }
          }

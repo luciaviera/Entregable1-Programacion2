@@ -53,7 +53,6 @@ public class Tablero {
                   
                   //Se crea la banda (solo si es valdia)
                   Banda banda = Banda.crear(mov, turno);
-                  System.out.println("banda creada en agreg");
                   boolean agregada = false;
                   
                   //De haber bandas verifica si la reglade contacto esta activada para colocarla
@@ -65,6 +64,7 @@ public class Tablero {
                                              comparte = true;
                                     }
                            }
+                           if (!comparte) throw new IllegalArgumentException("Jugada no realizable. Debe compartir algun punto con una banda previa");
                            //De hacerlo la agrega
                            if (comparte){
                                     bandas.add(banda);

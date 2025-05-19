@@ -28,7 +28,6 @@ public class Banda {
                   Punto pFinal;
                   try {
                            pFinal = hallarPuntoDestino(mov);
-                           System.out.println("Se creo una banda");
                   } catch (IllegalArgumentException e) {
                            throw new IllegalArgumentException("La Banda no se puede crear, se va del tablero");
                   }
