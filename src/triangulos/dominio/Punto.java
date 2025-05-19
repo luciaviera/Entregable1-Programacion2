@@ -53,16 +53,16 @@ public class Punto {
          }
 
         @Override
-            public boolean equals(Object o) {
-                if (this == o) return true;
-                if (!(o instanceof Punto otro)) return false;
-                return this.columna == otro.columna && this.fila == otro.fila;
-            }
+         public boolean equals(Object o) {
+                  if (this == o) return true;
+                  if (!(o instanceof Punto otro)) return false;
+                  return this.columna == otro.columna && this.fila == otro.fila;
+         }
          
          @Override
-        public int hashCode() {
-            return 31 * columna + fila;
-        }
+         public int hashCode() {
+                  return 31 * columna + fila;
+         }
 
          @Override
          public String toString() { return "" + this.columna + this.fila; }

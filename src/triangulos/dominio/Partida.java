@@ -72,6 +72,10 @@ public class Partida {
          public Jugador getPerdedor() {
                   return perdedor;
          }
+         public ArrayList<Movimiento> getHistorial() {
+                  return historial;
+         }
+         
          
          //Setters
          public void setPuntajeBlanco(int puntajeBlanco) {

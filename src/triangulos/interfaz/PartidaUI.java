@@ -1,5 +1,6 @@
 package triangulos.interfaz;
 
+import java.util.ArrayList;
 import triangulos.dominio.*;
 
 public class PartidaUI {
@@ -14,10 +15,12 @@ public class PartidaUI {
                   this.imprimirPuntuaciones();
                   this.imprimirTablero(this.partida.getTablero().getRepTablero());
                   
+                  Consola.print("INSTRUCCIONES:");
                   Consola.println("\nLas jugadas deben tener el siguiente formato: <Columna><Fila><Dirección>[Largo]");
                   Consola.println("Columna: A–M, Fila: 1–7, Dirección: Q/E/D/C/Z/A, Largo (Debe estar activado el largo variable de bandas): 1–4");
-                  Consola.print("Ejemplo: A4D o C3Q2\n");
-
+                  Consola.println("Ejemplo: A4D o C3Q2");
+                  Consola.println("En caso de querer rendisre y abandonar lapartida ingrese: X");
+                  Consola.println("En caso de querer ver las jugadas previas ingrese: H\n");
                   //Loop de turnos
                   while (!this.partida.haTerminado()) {
                            this.ingresarJugada();
@@ -54,15 +57,14 @@ public class PartidaUI {
                   while (!jugadaValida) {
                            if (entrada.equals("H")) {
                                     this.mostrarHistorial();
+                                    entrada = Consola.readln("Jugador " + this.imprimirColor() + " (" + this.partida.jugadorActual().getNombre() + ") es su turno. Ingrese su jugada: ");
+                           }
+                           try {
+                                    this.partida.realizarJuegada(entrada, this.partida.getTablero());
                                     jugadaValida = true;
-                           } else {
-                                    try {
-                                             this.partida.realizarJuegada(entrada, this.partida.getTablero());
-                                             jugadaValida = true;
-                                    } catch (IllegalArgumentException e) {
-                                             Consola.error(e.getMessage());
-                                             entrada = Consola.readln("Por favor reingrese: ");
-                                    }
+                           } catch (IllegalArgumentException e) {
+                                    Consola.error(e.getMessage());
+                                    entrada = Consola.readln("Por favor reingrese: ");
                            }
                   }
          }
@@ -77,8 +79,23 @@ public class PartidaUI {
                   return color;
          }
 
-         private String mostrarHistorial(){
-             return null; 
+         private void mostrarHistorial(){
+                  ArrayList<Movimiento> historial = this.partida.getHistorial();
+                  String hStr;
+                  if (historial.isEmpty()) {
+                           hStr = "Todavia no se han realizado jugadas\n";
+                  } else {
+                           hStr = "\nJugadas realizadas: ";
+                           for ( int i= 0; i < historial.size(); i++) {
+                                    Movimiento mov = historial.get(i);
+                                    if (i < historial.size() -1) {
+                                             hStr += mov + ", ";
+                                    } else {
+                                             hStr += mov + "\n";
+                                    }
+                           }
+                  }
+                  Consola.println(hStr);
          }
          
          private void mostrarResultados(){
