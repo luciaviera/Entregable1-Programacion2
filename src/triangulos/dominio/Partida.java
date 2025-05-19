@@ -16,6 +16,7 @@ public class Partida {
          private  Tablero tablero = new Tablero(this);         
          private  ArrayList<Movimiento> historial = new ArrayList<>();
          private Jugador ganador;
+         private Jugador perdedor;
          private boolean terminada = false;
          
          //Constructor
@@ -68,6 +69,9 @@ public class Partida {
          public boolean haTerminado() {
                   return this.terminada;
          }
+         public Jugador getPerdedor() {
+                  return perdedor;
+         }
          
          //Setters
          public void setPuntajeBlanco(int puntajeBlanco) {
@@ -94,6 +98,8 @@ public class Partida {
                            this.terminada = (tablero.getBandas().size() == config.getCantMaxBandas());   //Verifico si hay que terminar la partida
                            if (terminada) {
                                     this.hallarGanador();
+                                    this.agregarVictoria();
+                                    this.aumentarRacha();
                            }
                            cambiarTurno();
                   }
@@ -133,5 +139,16 @@ public class Partida {
                            this.ganador = this.negro;
                   }
          }
+         
+         private void agregarVictoria(){
+                  int vActualizadas = this.jugadorActual().getVictorias() +1;
+                  this.jugadorActual().setVictorias(vActualizadas);
+         }
+         
+         private void aumentarRacha(){
+                  int rActualizada =this.jugadorActual().getRacha() +1;
+                  this.jugadorActual().setRacha(rActualizada);
+         }
+         
          
 }  
