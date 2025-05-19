@@ -3,11 +3,11 @@ package triangulos.interfaz;
 import java.util.ArrayList;
 import triangulos.dominio.ConfiguracionDePartida;
 import triangulos.dominio.Jugador;
-import triangulos.dominio.RegistroDeJugadores;
+import triangulos.dominio.GestionDeJugadores;
 
 public class Menu {
          
-         private  RegistroDeJugadores registro = new RegistroDeJugadores();
+         private  GestionDeJugadores gestJugadores = new GestionDeJugadores();
          private ConfiguracionDePartida config = new ConfiguracionDePartida();
          
          
@@ -42,6 +42,9 @@ public class Menu {
                                                       opcionValida = true;
                                                       break;
                                              case "D":
+                                                      Consola.println("\nRANKING:");
+                                                      this.mostrarRachas();
+                                                      this.mostrarRanking();
                                                       opcionValida = true;
                                                       break;
                                              case "E":
@@ -66,7 +69,7 @@ public class Menu {
                                     String nombre = Consola.readln("\nIngrese el nombre del jugador: ");
                                     int edad = leerNumero("Ingrese la edad del jugador: ");
                                     Jugador jugador = new Jugador(nombre, edad);
-                                    this.registro.registrar(jugador);
+                                    this.gestJugadores.registrarJugador(jugador);
                                     Consola.println("Jugador registrado: " + jugador + "\n");
                                     registrado = true;
                             } catch ( IllegalArgumentException e) {
@@ -77,7 +80,7 @@ public class Menu {
          }
          
          private void comenzarPartida(){
-                  this.registro.hayMinimo();
+                  this.gestJugadores.hayMinimoDeJugadores();
                   this.mostrarJugadores();
                   Jugador[] judaoresSeleccioandos = this.seleccionarJugadores();
                   PartidaUI partidaUI = new PartidaUI();
@@ -85,10 +88,10 @@ public class Menu {
          }
          
          public  void mostrarJugadores(){
-                  ArrayList<Jugador> jugadores = this.registro.getJugadores();
+                  ArrayList<Jugador> jugadores = this.gestJugadores.getJugadores();
                   Consola.println("\nJUGADORES REGISTRADOS");
                   for (int i = 0; i <jugadores.size(); i++) {
-                            Consola.println(i+1 + ". " +jugadores.get(i).getNombre());
+                            Consola.println((i+1) + ". " +jugadores.get(i).getNombre());
                   }
          }
 
@@ -100,7 +103,7 @@ public class Menu {
                            int indiceJ1 = leerNumero("Ingrese el numero correspondiente al primer jugador: ");
                            int indiceJ2 = leerNumero("Ingrece el numero correspondiente al segundo jugador: ");
                            try {
-                                    jugadores = this.registro.seleccionarJugadores(indiceJ1, indiceJ2);
+                                    jugadores = this.gestJugadores.seleccionarJugadores(indiceJ1, indiceJ2);
                                     seleccionados = true;
                            } catch (IllegalArgumentException e) {
                                     Consola.error(e.getMessage());
@@ -130,5 +133,29 @@ public class Menu {
                            }
                   }  
                   return numero;
+         }
+         
+         private void mostrarRanking(){
+                  ArrayList<Jugador> ranking = this.gestJugadores.getRanking();
+                  for (int i = 0; i <ranking.size(); i++) {
+                            Consola.println( (i+1) + ". " +ranking.get(i).getNombre() + " (" + ranking.get(i).getVictorias() + " partidas ganadas)");
+                  }
+         }
+         
+         private void mostrarRachas(){
+                  ArrayList<Jugador> rachas = this.gestJugadores.jugadoresDeMayorRacha();
+                  if (rachas.isEmpty()) {
+                           Consola.println("De momento nadie ha ganado una partida");
+                  } else {
+                           if (rachas.size() == 1) {
+                                    Consola.print("El jugador con mayor racha es: " + rachas.get(0).getNombre() + ", con una racha de " + rachas.get(0).getRacha() + " partidas ganadas");
+                           } else{
+                                    Consola.print("Los jugadores con mayor racha son: " );
+                                    for (int i = 0; i < rachas.size(); i++) {
+                                                 Consola.print(rachas.get(i).getNombre() + ", ");
+                                    }
+                                    Consola.print("con una racha de " + rachas.get(0).getRacha() + " partidas ganadas");
+                           }
+                  }
          }
 }

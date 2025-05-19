@@ -2,18 +2,22 @@ package triangulos.dominio;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
 
-public class RegistroDeJugadores {
+public class GestionDeJugadores {
         
          private ArrayList<Jugador> jugadores = new ArrayList<>();
-         
+         private ArrayList<Jugador> ranking = jugadores;
+
          //Getters
          public ArrayList<Jugador> getJugadores(){
              return this.jugadores;
          }
+         public ArrayList<Jugador> getRanking() {
+                  return this.ranking;
+         }
+         
 
-         public void registrar(Jugador j) {
+         public void registrarJugador(Jugador j) {
                   if (jugadores.contains(j)) {
                         throw new IllegalArgumentException("El jugador ya estaba registrado");
                   }
@@ -21,7 +25,7 @@ public class RegistroDeJugadores {
                   jugadores.sort(Comparator.comparing(Jugador::getNombre, String.CASE_INSENSITIVE_ORDER));
          }
          
-         public void hayMinimo() {
+         public void hayMinimoDeJugadores() {
                    if (this.jugadores.size() < 2) throw new IllegalArgumentException("Es necesario tener al menos dos jugadores registrados para poder jugar");
          }
          
@@ -34,6 +38,30 @@ public class RegistroDeJugadores {
                   
                   Jugador[] seleccionados = {jugador1, jugador2};
                   return seleccionados;
+         }
+         
+         public void actualizarRanking(){
+                  this.ranking.sort((j1, j2) -> Integer.compare(j2.getVictorias(), j1.getVictorias()));
+         }
+         
+         public ArrayList<Jugador> jugadoresDeMayorRacha(){
+                  ArrayList<Jugador> resultado = new ArrayList<>();
+                  int maxRacha = 1;
+                  
+                  // Buscar la mayor racha
+                  for (Jugador jugador : this.jugadores) {
+                           if (jugador.getRacha() >= maxRacha) {
+                                    maxRacha = jugador.getRacha();
+                           }
+                  }
+                  
+                  //Guardo los jugadores con esa racha en el array
+                  for (Jugador j : this.jugadores) {
+                           if (j.getRacha() == maxRacha) {
+                                    resultado.add(j);
+                            }
+                  }
+                  return resultado;
          }
 
 }
