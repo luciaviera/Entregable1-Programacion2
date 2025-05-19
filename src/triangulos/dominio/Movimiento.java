@@ -17,11 +17,13 @@ class Movimiento {
          //Creacion de movimiento
          public static Movimiento crear(String entrada, Tablero tablero) {
                   int largoEntrada = entrada.length();
-                  if (largoEntrada  < 3 || largoEntrada > 4) throw new IllegalArgumentException("Longitud inválida (3 o 4 chars)");
+                  if (largoEntrada  < 3 || largoEntrada > 4) throw new IllegalArgumentException("No ingreso la jugada correctamente");
 
                   //Creo punto
                   int fila = entrada.charAt(1)  - '0'; 
                   char col = entrada.charAt(0);
+                  if (col < 'A' || col > 'M') throw new IllegalArgumentException("Columna debe ser A-M");
+                  if (fila < 1 || fila > 7) throw new IllegalArgumentException("Fila debe ser 1-7");
                   Punto punto = Punto.crear(col, fila);
                   
                   //Valido la direccion
@@ -30,6 +32,7 @@ class Movimiento {
                   
                   int largo = 4; //largo por defecto
                   //Valido el largo de haberse indicado
+                  
                   if (largoEntrada == 4) {
                            largo = entrada.charAt(3) - '0';
                            if (largo < 1 || largo > 4) throw new IllegalArgumentException("Largo debe ser 1-4");

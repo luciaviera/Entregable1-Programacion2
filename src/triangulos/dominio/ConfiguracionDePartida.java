@@ -29,7 +29,7 @@ public class ConfiguracionDePartida {
                   this.largoVariable = largoVariable;
          }
          public void setCantMaxBandas(int cantMaxBandas) {
-                  if (cantMaxBandas < 3) throw new IllegalArgumentException("Necesita poder colocarse al menos 3 bandas para que halla un ganador");
+                  if (cantMaxBandas < 1) throw new IllegalArgumentException("Necesita poder colocarse al menos 1 banda");
                   this.cantMaxBandas = cantMaxBandas;
          }
          public void setReglaDeContacto(boolean reglaDeContacto) {

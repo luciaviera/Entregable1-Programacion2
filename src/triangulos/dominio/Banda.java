@@ -28,6 +28,7 @@ public class Banda {
                   Punto pFinal;
                   try {
                            pFinal = hallarPuntoDestino(mov);
+                           System.out.println("Se creo una banda");
                   } catch (IllegalArgumentException e) {
                            throw new IllegalArgumentException("La Banda no se puede crear, se va del tablero");
                   }
@@ -68,7 +69,7 @@ public class Banda {
                            }
                            case 'D' -> {
                                filaFinal = filaInicial;
-                               colFinal = (char) (colInicial + 1*largo);
+                               colFinal = (char) (colInicial + 2*largo);
                            }
                            case 'C' -> {
                                filaFinal = filaInicial + 1*largo;
@@ -80,7 +81,7 @@ public class Banda {
                            }
                            case 'A' -> {
                                filaFinal = filaInicial;
-                               colFinal = (char) (colInicial - 1*largo);
+                               colFinal = (char) (colInicial - 2*largo);
                            }
                   }
                   return Punto.crear(colFinal, filaFinal);
@@ -89,38 +90,37 @@ public class Banda {
          //Obteine todos los puntos pertenecientes a una banda
          public ArrayList<Punto> getPuntosInternos(){
                   ArrayList<Punto> puntos = new ArrayList<>();
-                  int fila = this.pInicial.getFila();
-                  char col = this.pInicial.getColumna();
+                  int filaInicial = this.pInicial.getFila();
+                  char colInicial = this.pInicial.getColumna();
                   for (int i = 0; i <= largo; i++) { 
-                           int filaIntermedia = fila;
-                           char colIntermedia = col;
+                           int fila = filaInicial;
+                           char col = colInicial;
                            switch (dir) {
                                     case 'Q' -> {
-                                             filaIntermedia= fila - i;
-                                             colIntermedia = (char) (col - i);
+                                             fila= filaInicial - i;
+                                             col = (char) (colInicial - i);
                                     }
                                     case 'E' -> {
-                                             filaIntermedia = fila - i;
-                                             colIntermedia = (char) (col + i);
+                                             fila = filaInicial - i;
+                                             col = (char) (colInicial + i);
                                     }
                                     case 'D' -> {
-                                             filaIntermedia = fila;
-                                             colIntermedia = (char) (col + i);
+                                             col = (char) (colInicial + 2*i);
                                     }
                                     case 'C' -> {
-                                             filaIntermedia = fila + i;
-                                             colIntermedia = (char) (col + i);
+                                             fila = filaInicial + i;
+                                             col = (char) (colInicial + i);
                                     }
                                     case 'Z' -> {
-                                             filaIntermedia = fila + i;
-                                             colIntermedia= (char) (col - i);
+                                             fila = filaInicial + i;
+                                             col = (char) (colInicial - i);
                                     }
                                     case 'A' -> {
-                                             filaIntermedia = fila;
-                                             colIntermedia= (char) (col - i);
+                                             col= (char) (colInicial - 2*i);
                                     }
                            }
-                           puntos.add(Punto.crear(colIntermedia, filaIntermedia));
+                           
+                           puntos.add(Punto.crear(col, fila));
                   }
                   return puntos;
          }
