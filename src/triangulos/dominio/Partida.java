@@ -13,7 +13,8 @@ public class Partida {
          private ConfiguracionDePartida config;
          private int puntajeBlanco = 0;
          private int puntajeNegro = 0;
-         private  Tablero tablero = new Tablero(this);         
+         private  Tablero tablero = new Tablero(this); 
+         private ArrayList<String[][]> tablerosVisibles = new ArrayList<>();
          private  ArrayList<Movimiento> historial = new ArrayList<>();
          private Jugador ganador;
          private Jugador perdedor;
@@ -38,7 +39,7 @@ public class Partida {
                   //Arranca la partida jugando el jugador Blanco
                   this.turno = 'B';
                   
-                  
+                  this.tablerosVisibles.add(clonarMatriz(this.tablero.getRepTablero()));
          }
          
          //Getters
@@ -75,7 +76,9 @@ public class Partida {
          public ArrayList<Movimiento> getHistorial() {
                   return historial;
          }
-         
+         public ArrayList<String[][]> getTablerosVisibles() {
+                  return tablerosVisibles;
+         }
          
          //Setters
          public void setPuntajeBlanco(int puntajeBlanco) {
@@ -96,7 +99,8 @@ public class Partida {
                            Movimiento mov = Movimiento.crear (entrada, tablero);
                            //Verifico si la jugada es admisible en el tablero actual y de serlo me la agrega
                            tablero.agregarBanda(mov);
-                           
+                          
+                           refrezcarTableros();
                             //Actualizo el estado de la partida
                            historial.add(mov);  //Agrego jugada al historial
                            this.terminada = (tablero.getBandas().size() == config.getCantMaxBandas());   //Verifico si hay que terminar la partida
@@ -132,6 +136,8 @@ public class Partida {
                   } else {
                            this.ganador = this.blanco;
                   }
+                  this.aumentarRacha();
+                  this.agregarVictoria();
                   this.terminada = true;
          }
          
@@ -145,14 +151,34 @@ public class Partida {
          }
          
          private void agregarVictoria(){
-                  int vActualizadas = this.jugadorActual().getVictorias() +1;
+                  int vActualizadas = this.ganador.getVictorias() +1;
                   this.jugadorActual().setVictorias(vActualizadas);
+                  
          }
          
          private void aumentarRacha(){
-                  int rActualizada =this.jugadorActual().getRacha() +1;
+                  int rActualizada = this.ganador.getRacha() +1;
                   this.jugadorActual().setRacha(rActualizada);
          }
          
+         private void refrezcarTableros() {
+                  int cantAVerse = this.config.getHistorialDeTableros();
+                  if (this.tablerosVisibles.size() >= cantAVerse) {
+                           this.tablerosVisibles.remove(0);
+                  }
+                  this.tablerosVisibles.add(clonarMatriz(this.tablero.getRepTablero()));
+         }
          
+         private String[][] clonarMatriz(String[][] original) {
+                  int filas = original.length;
+                  int columnas = original[0].length;
+                  String[][] copia = new String[filas][columnas];
+                   for (int i = 0; i < filas; i++) {
+                           for (int j = 0; j < columnas; j++) {
+                                    copia[i][j] = original[i][j];
+                           }
+                   }
+                  return copia;
+         }
 }  
+

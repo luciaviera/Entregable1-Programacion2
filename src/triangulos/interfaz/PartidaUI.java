@@ -13,7 +13,7 @@ public class PartidaUI {
 
                   Consola.println("Blanco: " + this.partida.getBlanco() + "  vs  Negro: " + this.partida.getNegro()+"\n");
                   this.imprimirPuntuaciones();
-                  this.imprimirTablero(this.partida.getTablero().getRepTablero());
+                  this.imprimirTableros(this.partida.getTablerosVisibles());
                   
                   Consola.print("INSTRUCCIONES:");
                   Consola.println("\nLas jugadas deben tener el siguiente formato: <Columna><Fila><Dirección>[Largo]");
@@ -25,7 +25,7 @@ public class PartidaUI {
                   while (!this.partida.haTerminado()) {
                            this.ingresarJugada();
                            this.imprimirPuntuaciones();
-                           this.imprimirTablero(this.partida.getTablero().getRepTablero());
+                           this.imprimirTableros(this.partida.getTablerosVisibles());
                   }        
                   this.mostrarResultados();    
          }
@@ -35,16 +35,28 @@ public class PartidaUI {
                   Consola.println("Cantidad Negro : " + this.partida.getPuntajeNegro() + "\n");
          }
 
-         private  void imprimirTablero(String[][] tablero) {
+         private void imprimirTableros(ArrayList<String[][]> tableros) {
+
                   String[] columnas = {"A","B","C","D","E","F","G","H","I","J","K","M","N"};
-                  for (String col : columnas) {
-                            Consola.print(col + " ");
+
+                  // Imprimo los títulos de columnas para cada tablero
+                  for (int t = 0; t < tableros.size(); t++) {
+                           for (String col : columnas) {
+                                    Consola.print(col + " ");
+                           }
+                           Consola.print("    "); // espacio entre tableros
                   }
-                  Consola.println("\n");
-                  // Imprime la matriz
-                  for (int i = 0; i < tablero.length; i++) {
-                           for (int j = 0; j < tablero[i].length; j++) {
-                                    Consola.print(tablero[i][j]);
+                  Consola.println("");
+
+                  int filas = tableros.get(0).length;
+
+                  // Imprimir todas las filas de todos los tableros en paralelo
+                  for (int i = 0; i < filas; i++) {
+                           for (String[][] tablero : tableros) {
+                                    for (int j = 0; j < tablero[i].length; j++) {
+                                             Consola.print(tablero[i][j]);
+                                    }
+                                    Consola.print("     "); // espacio entre tableros
                            }
                            Consola.println("");
                   }
@@ -65,6 +77,7 @@ public class PartidaUI {
                            } catch (IllegalArgumentException e) {
                                     Consola.error(e.getMessage());
                                     entrada = Consola.readln("Por favor reingrese: ");
+                                    Consola.println("");
                            }
                   }
          }

@@ -53,7 +53,6 @@ public class Tablero {
                   
                   //Se crea la banda (solo si es valdia)
                   Banda banda = Banda.crear(mov, turno);
-                  System.out.println("banda creada en agreg");
                   boolean agregada = false;
                   
                   //De haber bandas verifica si la reglade contacto esta activada para colocarla
@@ -65,6 +64,7 @@ public class Tablero {
                                              comparte = true;
                                     }
                            }
+                           if (!comparte) throw new IllegalArgumentException("Jugada no realizable. Debe compartir algun punto con una banda previa");
                            //De hacerlo la agrega
                            if (comparte){
                                     bandas.add(banda);
@@ -72,8 +72,8 @@ public class Tablero {
                                     agregada = true;
                            }
                   } else {
-                           bandas.add(banda);
                            this.procesarBanda(banda);
+                           bandas.add(banda);
                            agregada = true;
                   }
                   return agregada;
@@ -81,8 +81,10 @@ public class Tablero {
          }
          
          private void procesarBanda(Banda banda){
+
                   ArrayList<Punto> ptsBanda = banda.getPuntosInternos();
                   //Recorro segmentos de largo 1 de la banda
+
                   for (int i = 0; i < ptsBanda.size() -1; i++) {
                            Punto p1 = ptsBanda.get(i);
                            Punto p2 = ptsBanda.get(i+1);
@@ -90,7 +92,6 @@ public class Tablero {
                            //Registro que comparten banda
                            this.mapPuntos(p1,p2);
                            this.mapPuntos(p2, p1);
-                           
                            this.trazarSegmentoBanda(p1, p2, banda.getDir());
                            
                            this.detectarTriangulos(p1,p2);
@@ -132,12 +133,11 @@ public class Tablero {
                            default: 
                                     throw new IllegalArgumentException("No se pudo realziar el trazado en el tablero");
                   }
-
+                  
                   if (dir == 'D' || dir == 'A') {
                            this.repTablero[posFila][posCol + 1] = trazo;
                            this.repTablero[posFila][posCol - 1] = trazo;      
                   }
-                  
                   this.repTablero[posFila][posCol] = trazo;
          }
          

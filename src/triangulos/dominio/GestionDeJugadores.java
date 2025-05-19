@@ -6,16 +6,16 @@ import java.util.Comparator;
 public class GestionDeJugadores {
         
          private ArrayList<Jugador> jugadores = new ArrayList<>();
-         private ArrayList<Jugador> ranking = jugadores;
+         private ArrayList<Jugador> ranking = new ArrayList<>();
 
          //Getters
          public ArrayList<Jugador> getJugadores(){
              return this.jugadores;
          }
          public ArrayList<Jugador> getRanking() {
+                  this.actualizarRanking();
                   return this.ranking;
          }
-         
 
          public void registrarJugador(Jugador j) {
                   if (jugadores.contains(j)) {
@@ -41,6 +41,7 @@ public class GestionDeJugadores {
          }
          
          public void actualizarRanking(){
+                  this.ranking = new ArrayList<>(this.jugadores);
                   this.ranking.sort((j1, j2) -> Integer.compare(j2.getVictorias(), j1.getVictorias()));
          }
          

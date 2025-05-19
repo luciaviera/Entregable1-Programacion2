@@ -31,7 +31,7 @@ public class Punto {
          //Creacion de puntos
          public static Punto crear(char col, int fila) {
                   String coord = "" + col + fila;
-                    if (coordenadasInvalidas.contains(coord)) throw new IllegalArgumentException("El punto no existe en el tablerooo.");
+                    if (coordenadasInvalidas.contains(coord)) throw new IllegalArgumentException("El punto no existe en el tablero.");
                   return new Punto(col, fila);
          }
          

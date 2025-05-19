@@ -137,8 +137,9 @@ public class Menu {
          
          private void mostrarRanking(){
                   ArrayList<Jugador> ranking = this.gestJugadores.getRanking();
+                  
                   for (int i = 0; i <ranking.size(); i++) {
-                            Consola.println( (i+1) + ". " +ranking.get(i).getNombre() + " (" + ranking.get(i).getVictorias() + " partidas ganadas)");
+                           Consola.println( (i+1) + ". " +ranking.get(i).getNombre() + " (" + ranking.get(i).getVictorias() + " partidas ganadas)");
                   }
          }
          
@@ -148,13 +149,13 @@ public class Menu {
                            Consola.println("De momento nadie ha ganado una partida");
                   } else {
                            if (rachas.size() == 1) {
-                                    Consola.print("El jugador con mayor racha es: " + rachas.get(0).getNombre() + ", con una racha de " + rachas.get(0).getRacha() + " partidas ganadas");
+                                    Consola.print("El jugador con mayor racha es: " + rachas.get(0).getNombre() + ", con una racha de " + rachas.get(0).getRacha() + " partidas ganadas\n");
                            } else{
                                     Consola.print("Los jugadores con mayor racha son: " );
                                     for (int i = 0; i < rachas.size(); i++) {
                                                  Consola.print(rachas.get(i).getNombre() + ", ");
                                     }
-                                    Consola.print("con una racha de " + rachas.get(0).getRacha() + " partidas ganadas");
+                                    Consola.print("con una racha de " + rachas.get(0).getRacha() + " partidas ganadas\n");
                            }
                   }
          }

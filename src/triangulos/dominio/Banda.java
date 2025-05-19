@@ -28,7 +28,6 @@ public class Banda {
                   Punto pFinal;
                   try {
                            pFinal = hallarPuntoDestino(mov);
-                           System.out.println("Se creo una banda");
                   } catch (IllegalArgumentException e) {
                            throw new IllegalArgumentException("La Banda no se puede crear, se va del tablero");
                   }
@@ -84,6 +83,8 @@ public class Banda {
                                colFinal = (char) (colInicial - 2*largo);
                            }
                   }
+                  if (filaFinal < 1 || filaFinal > 7 || colFinal < 'A' || colFinal > 'M') throw new IllegalArgumentException("La banda se extiende fuera del tablero: destino inválido " + colFinal + filaFinal);
+                  
                   return Punto.crear(colFinal, filaFinal);
          }
          
