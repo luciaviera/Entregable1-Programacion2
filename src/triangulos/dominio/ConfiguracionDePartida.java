@@ -49,4 +49,8 @@ public class ConfiguracionDePartida {
                   this.reglaDeContacto = false;
                   this.historialDeTableros = 1;
          }
+         
+         public boolean enConfigDefecto() {
+                  return !(this.largoVariable == true || this.cantMaxBandas != 10 || this.reglaDeContacto == true || this.historialDeTableros != 1) ;
+         }
 }

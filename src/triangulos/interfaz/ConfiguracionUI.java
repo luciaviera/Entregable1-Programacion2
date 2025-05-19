@@ -13,7 +13,8 @@ public class ConfiguracionUI {
 
                   boolean estadoContacto = this.config.isReglaDeContacto();
                   boolean estadoBandas = this.config.isLargoVariable();
-
+                  
+                  Consola.println("\nActualemnte se esta usando " + this.estadoConfig());
 
                   Consola.println("\nA) " + this.mensajeDeEstado(estadoContacto) + " regla de contacto");
                   Consola.println("  (Al estar activada hace que desde la 2da jugada sea obligatorio que la banda ingresada este en contacto con al menos una de las bandas previas, para poder realizarse la jugada)");
@@ -107,4 +108,14 @@ public class ConfiguracionUI {
                   }
                   return mensaje;
           }
+         
+         private String estadoConfig(){
+                  String str;
+                  if (this.config.enConfigDefecto() == false) {
+                           str = "configuracion personalizada";
+                  } else {
+                           str = "la configuracion por defecto";
+                  }
+                  return str;
+         }
 }
