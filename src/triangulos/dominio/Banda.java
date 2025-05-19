@@ -1,7 +1,6 @@
 package triangulos.dominio;
 
 import java.util.ArrayList;
-import triangulos.interfaz.Consola;
 
 public class Banda {
 

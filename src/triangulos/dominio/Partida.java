@@ -13,7 +13,7 @@ public class Partida {
          private ConfiguracionDePartida config;
          private int puntajeBlanco = 0;
          private int puntajeNegro = 0;
-         private  Tablero tablero = new Tablero();         
+         private  Tablero tablero = new Tablero(this);         
          private  ArrayList<Movimiento> historial = new ArrayList<>();
          private Jugador ganador;
          private boolean terminada = false;
@@ -68,22 +68,33 @@ public class Partida {
          public boolean haTerminado() {
                   return this.terminada;
          }
+         
+         //Setters
+         public void setPuntajeBlanco(int puntajeBlanco) {
+                  this.puntajeBlanco = puntajeBlanco;
+         }
+         public void setPuntajeNegro(int puntajeNegro) {
+                  this.puntajeNegro = puntajeNegro;
+         }
+         
         
          public void realizarJuegada (String entrada, Tablero tablero){                 
                   
                   if (entrada.equals("X")) {
                            this.abandonar();
                   } else {
-                           if (entrada.length() == 4 && !this.config.isLargoVariable()){
-                                    throw new IllegalArgumentException("No ingrese el largo de la banda, largo variable esta desactivado");
-                           }
+                           if (entrada.length() == 4 && !this.config.isLargoVariable()) throw new IllegalArgumentException("No ingrese el largo de la banda, largo variable esta desactivado");
+                           
                            Movimiento mov = Movimiento.crear (entrada, tablero);
                            //Verifico si la jugada es admisible en el tablero actual y de serlo me la agrega
-                           tablero.agregarBanda(mov, this.turno, this.config);
+                           tablero.agregarBanda(mov);
                            
                             //Actualizo el estado de la partida
                            historial.add(mov);  //Agrego jugada al historial
-                           terminada = (tablero.getBandas().size() == config.getCantMaxBandas());   //Verifico si hay que terminar la partida
+                           this.terminada = (tablero.getBandas().size() == config.getCantMaxBandas());   //Verifico si hay que terminar la partida
+                           if (terminada) {
+                                    this.hallarGanador();
+                           }
                            cambiarTurno();
                   }
          }
@@ -113,4 +124,14 @@ public class Partida {
                   }
                   this.terminada = true;
          }
+         
+         private void hallarGanador(){
+                  if (this.puntajeBlanco > this.puntajeNegro) {
+                           this.ganador = this.blanco;
+                  } 
+                  if (this.puntajeBlanco < this.puntajeNegro) {
+                           this.ganador = this.negro;
+                  }
+         }
+         
 }  

@@ -21,6 +21,7 @@ public class PartidaUI {
                   //Loop de turnos
                   while (!this.partida.haTerminado()) {
                            this.ingresarJugada();
+                           this.imprimirPuntuaciones();
                            this.imprimirTablero(this.partida.getTablero().getRepTablero());
                   }        
                   this.mostrarResultados();    

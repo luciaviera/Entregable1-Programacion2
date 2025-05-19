@@ -52,16 +52,18 @@ public class Punto {
                    return (this.columna - 'A')*2;
          }
 
-         @Override
-         public boolean equals(Object o) {
-                  boolean iguales = false;
-                  if (o != null) {
-                           Punto punto = (Punto) o;
-                           iguales = (punto.fila == this.fila  &&  this.columna == punto.columna);
-                  }
-                  return iguales;
-         }
+        @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (!(o instanceof Punto otro)) return false;
+                return this.columna == otro.columna && this.fila == otro.fila;
+            }
          
+         @Override
+        public int hashCode() {
+            return 31 * columna + fila;
+        }
+
          @Override
          public String toString() { return "" + this.columna + this.fila; }
 }
