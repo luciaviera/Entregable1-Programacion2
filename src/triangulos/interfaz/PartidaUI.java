@@ -81,13 +81,19 @@ public class PartidaUI {
              return null; 
          }
          
-         private void mostrarResultados() {
-                  if (this.partida.getGanador() != null) {
-                           Consola.println("¡Ganó " + this.partida.getGanador().getNombre() + "!");
-                           //FALTA IMPLEMENTAR EFECTO CONFETI
+         private void mostrarResultados(){
+                   if (this.partida.getGanador() != null) {
+                            Consola.println("¡GANO " + this.partida.getGanador().getNombre() + "!");
                   } else {
-                           Consola.println("Empate.");
+                           Consola.println("EMPATE");
                   }
-         }
+                  try {
+                           Thread.sleep(900);
+                           Confetti.tirar();
+                           Thread.sleep(800);
+                   } catch (InterruptedException e) {
+                   }
+         } 
+         
 
 }
