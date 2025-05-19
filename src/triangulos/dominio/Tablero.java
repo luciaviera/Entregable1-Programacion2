@@ -34,12 +34,18 @@ public class Tablero {
          }
 
          public boolean agregarBanda(Movimiento mov, char turno, ConfiguracionDePartida config) {
+                  
+                  //Se crea la banda (solo si es valdia)
                   Banda banda = Banda.crear(mov, turno);
                   boolean agregada = false;
+                  
+                  //Si no hay bandas colocadas en el tablero se coloca directamente
                   if (this.bandas.isEmpty()) {
                            this.bandas.add(banda);
                            agregada = true;
                   }
+                  
+                  //De haber bandas verifica si la reglade contacto esta activada para colocarla
                   if (config.isReglaDeContacto()) {
                            for (Banda b : this.bandas) {
                                     if (b.compartePuntosCon(banda)) {
@@ -51,6 +57,7 @@ public class Tablero {
                            bandas.add(banda);
                            agregada = true;
                   }
+                  
                   return agregada;
          }
 }

@@ -6,19 +6,22 @@ import java.util.Collections;
 import java.util.List;
 
 public class Partida {
+         
+         private char turno;
          private  Jugador blanco;
          private  Jugador negro;
          private ConfiguracionDePartida config;
-         private  Tablero tablero = new Tablero();         
-         private  List<Movimiento> historial = new ArrayList<>();
-         private char turno;
          private int puntajeBlanco = 0;
          private int puntajeNegro = 0;
+         private  Tablero tablero = new Tablero();         
+         private  ArrayList<Movimiento> historial = new ArrayList<>();
          private Jugador ganador;
          private boolean terminada = false;
          
          //Constructor
          public Partida(Jugador[] jugadores, ConfiguracionDePartida config) {
+                  this.config  =  config;
+                  
                   if (jugadores.length == 0) throw new IllegalArgumentException("No se han seleccioando jugadores");
                   if (jugadores.length != 2) throw new IllegalArgumentException("Se necesitan exactamente 2 jugadores");
                   
@@ -31,10 +34,10 @@ public class Partida {
                   this.blanco.setColor('B');
                   this.negro.setColor('N');
                   
-                   //Arranca la partida jugando el jugador Blanco
+                  //Arranca la partida jugando el jugador Blanco
                   this.turno = 'B';
                   
-                  this.config  =  config;
+                  
          }
          
          //Getters
@@ -59,16 +62,17 @@ public class Partida {
          public int getPuntajeNegro() {
                   return this.puntajeNegro;
          }
-         
-         
          public ConfiguracionDePartida getConfig() {
-                  return config;
+                  return this.config;
+         }
+         public boolean haTerminado() {
+                  return this.terminada;
          }
         
          public void realizarJuegada (String entrada, Tablero tablero){                 
                   
                   if (entrada.equals("X")) {
-                           this.abandonar(this.jugadorActual());
+                           this.abandonar();
                   } else {
                            Movimiento mov = Movimiento.crear (entrada, tablero);
                            //Verifico si la jugada es admisible en el tablero actual y de serlo me la agrega
@@ -81,6 +85,7 @@ public class Partida {
                   }
          }
          
+         //Devuelve el jugador del turno actual
          public Jugador jugadorActual() {
                   if (this.turno == 'B') {
                            return this.getBlanco();
@@ -89,10 +94,6 @@ public class Partida {
                   }
          }
          
-         public boolean haTerminado() {
-                  return terminada;
-         }
-
          private void cambiarTurno() {
                   if (this.turno == 'B') {
                            this.turno = 'N';
@@ -101,10 +102,12 @@ public class Partida {
                   }
          }
          
-         public void abandonar(Jugador actual) {
-                  terminada = true;
+         public void abandonar() {
+                  if (this.turno == 'B') {
+                           this.ganador = this.negro;
+                  } else {
+                           this.ganador = this.blanco;
+                  }
+                  this.terminada = true;
          }
-         
-         
-
 }  

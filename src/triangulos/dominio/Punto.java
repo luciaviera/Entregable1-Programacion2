@@ -20,14 +20,6 @@ public class Punto {
                   this.columna = columna;
                   this.fila = fila;
          }
-
-         public char getColumna() {
-                  return columna;
-         }
-
-         public int getFila() {
-                  return fila;
-         }
          
          //Creacion de puntos
          public static Punto crear(char col, int fila) {
@@ -37,6 +29,15 @@ public class Punto {
                   //Verifico que este en la representacion del tablero
                   if (coordenadasInvalidas.contains("" + fila + col)) throw new IllegalArgumentException("El punto no existe en el tablero.");
                   return new Punto(col, fila);
+         }
+         
+         //Getters
+         public char getColumna() {
+                  return columna;
+         }
+
+         public int getFila() {
+                  return fila;
          }
 
          @Override

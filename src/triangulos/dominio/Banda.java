@@ -34,7 +34,7 @@ public class Banda {
                   return new Banda (pInicial, pFinal, dir, largo, color);
          }
          
-         //Encuentro el punto final de una jugada de existir dentro del tablero
+         //Encuentro el punto final de una banda de existir
          public static Punto hallarPuntoDestino(Movimiento mov){
                   int filaInicial= mov.getOrigen().getFila();
                   char colInicial = mov.getOrigen().getColumna();
@@ -111,6 +111,7 @@ public class Banda {
                   return puntos;
          }
          
+         //Verifica si 2 bandas tienen algun punto en comun
          public boolean compartePuntosCon(Banda otra) {
                   ArrayList<Punto> misPuntos = this.getPuntosInternos();
                   ArrayList<Punto> susPuntos = otra.getPuntosInternos();
