@@ -34,6 +34,20 @@ public class Banda {
                   return new Banda (pInicial, pFinal, dir, largo, color);
          }
          
+         //Getters
+         public Punto getpInicial() {
+                  return pInicial;
+         }
+         public Punto getpFinal() {
+                  return pFinal;
+         }
+         public char getDir() {
+                  return dir;
+         }
+         public int getLargo() {
+                  return largo;
+         }
+
          //Encuentro el punto final de una banda de existir
          public static Punto hallarPuntoDestino(Movimiento mov){
                   int filaInicial= mov.getOrigen().getFila();

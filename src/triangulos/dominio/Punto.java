@@ -39,6 +39,14 @@ public class Punto {
          public int getFila() {
                   return fila;
          }
+         
+         //Calculan los indices correspondientes para la amtriz Tablero
+         public int obtenerIndiceFila(){
+                  return (this.fila -1)*2;
+         }
+         public int obtenerIndiceColumna(){
+                   return this.columna - 'A';
+         }
 
          @Override
          public boolean equals(Object o) {

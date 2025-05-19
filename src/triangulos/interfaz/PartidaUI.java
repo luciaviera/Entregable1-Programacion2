@@ -12,7 +12,7 @@ public class PartidaUI {
 
                   Consola.println("Blanco: " + this.partida.getBlanco() + "  vs  Negro: " + this.partida.getNegro()+"\n");
                   this.imprimirPuntuaciones();
-                  this.imprimirTablero(this.partida.getTablero().getTableroInicial());
+                  this.imprimirTablero(this.partida.getTablero().getRepTablero());
 
                   //Loop de turnos
                   while (!this.partida.haTerminado()) {
@@ -26,7 +26,7 @@ public class PartidaUI {
                   Consola.println("Cantidad Negro : " + this.partida.getPuntajeNegro() + "\n");
          }
 
-         private  void imprimirTablero(char[][] tablero) {
+         private  void imprimirTablero(String[][] tablero) {
                   String[] columnas = {"A","B","C","D","E","F","G","H","I","J","K","M","N"};
                   for (String col : columnas) {
                             Consola.print(col + " ");
@@ -34,11 +34,12 @@ public class PartidaUI {
                   Consola.println("\n");
                   // Imprime la matriz
                   for (int i = 0; i < tablero.length; i++) {
-                        for (int j = 0; j < tablero[i].length; j++) {
-                            Consola.print(tablero[i][j] + " ");
-                        }
-                        Consola.println("");
-                    }
+                           for (int j = 0; j < tablero[i].length; j++) {
+                                    Consola.print(tablero[i][j]);
+                           }
+                           Consola.println("");
+                  }
+                  Consola.println("");
         }
 
          private void ingresarJugada() {
