@@ -1,37 +1,32 @@
 package triangulos.interfaz;
-import java.util.List;
+
 import triangulos.dominio.*;
 
 public class PartidaUI {
          private Partida partida;
-         private String turno;
-
-         private boolean jugadaValida = false;
          
-         
-         public void iniciarPartida(List<Jugador> judaoresSeleccioandos, ConfiguracionDePartida config) {
+         public void iniciarPartida(Jugador[] judaoresSeleccioandos, ConfiguracionDePartida config) {
+                  
                   this.partida = new Partida(judaoresSeleccioandos, config);
                   Consola.println("\n¡Comienza la partida!");
 
-                  Consola.println("Blanco: " + partida.getBlanco() + "  vs  Negro: " + partida.getNegro()+"\n");
-                  imprimirPuntuaciones(partida);
-                  imprimirTablero(partida.getTablero().getTableroInicial());
-                  
+                  Consola.println("Blanco: " + this.partida.getBlanco() + "  vs  Negro: " + this.partida.getNegro()+"\n");
+                  this.imprimirPuntuaciones();
+                  this.imprimirTablero(this.partida.getTablero().getRepTablero());
+
                   //Loop de turnos
-                   while (!partida.haTerminado()) {
-                            realizarJugada();
-                  }
-                   
-                  mostrarResultados();    
+                  while (!this.partida.haTerminado()) {
+                           this.ingresarJugada();
+                  }        
+                  this.mostrarResultados();    
          }
          
-         // FALTA IMPLEMENTAR QUE TENGA DATOS REALES
-         private void imprimirPuntuaciones(Partida partida) {
-                  Consola.println("Cantidad Blanco : ");
-                  Consola.println("Cantidad Negro : " + "\n");
+         private void imprimirPuntuaciones() {
+                  Consola.println("Cantidad Blanco : " + this.partida.getPuntajeBlanco());
+                  Consola.println("Cantidad Negro : " + this.partida.getPuntajeNegro() + "\n");
          }
-         
-         private  void imprimirTablero(char[][] tablero) {
+
+         private  void imprimirTablero(String[][] tablero) {
                   String[] columnas = {"A","B","C","D","E","F","G","H","I","J","K","M","N"};
                   for (String col : columnas) {
                             Consola.print(col + " ");
@@ -39,78 +34,54 @@ public class PartidaUI {
                   Consola.println("\n");
                   // Imprime la matriz
                   for (int i = 0; i < tablero.length; i++) {
-                        for (int j = 0; j < tablero[i].length; j++) {
-                            Consola.print(tablero[i][j] + " ");
-                        }
-                        Consola.println("");
-                    }
+                           for (int j = 0; j < tablero[i].length; j++) {
+                                    Consola.print(tablero[i][j]);
+                           }
+                           Consola.println("");
+                  }
+                  Consola.println("");
         }
-         
-         private void realizarJugada() {
-                  Jugador jugando = jugadorActual();
-                  String entrada = Consola.readln("Jugador " + turno + " (" + jugando.getNombre() + ") es su turno. Ingrese su jugada :").toUpperCase();
-                  procesarJugada(entrada,jugando); 
-         }
-         
-         private Jugador jugadorActual() {
-                  if (partida.getTurno() == 'B') {
-                           this.turno = "Blanco";
-                           return partida.getBlanco();
-                  } else {
-                           this.turno = "Negro";
-                           return partida.getNegro();
-                  }
-         }
-         
-         private void procesarJugada(String entrada, Jugador jugador) {
+
+         private void ingresarJugada() {
+                  String entrada = Consola.readln("Jugador " + this.imprimirColor() + " (" + this.partida.jugadorActual().getNombre() + ") es su turno. Ingrese su jugada :");
+                  boolean jugadaValida = false;
                   while (!jugadaValida) {
-                           switch (entrada) {
-                                    // rendición
-                                    case "X" -> {                    
-                                             Consola.println(jugador.getNombre() + " se ha rendido.");
+                           if (entrada.equals("H")) {
+                                    this.mostrarHistorial();
+                                    jugadaValida = true;
+                           } else {
+                                    try {
+                                             this.partida.realizarJuegada(entrada, this.partida.getTablero());
                                              jugadaValida = true;
-                                             }
-                                    // opción de historial
-                                    case "H" -> mostrarHistorial();  
-                                    default -> jugadaValida = validarJugada(entrada);
-                           }
-                           if (!jugadaValida) {
-                                entrada = Consola.readln("Accion invalida, por favor reingrese: ");
+                                    } catch (IllegalArgumentException e) {
+                                             Consola.error(e.getMessage());
+                                             entrada = Consola.readln("Por favor reingrese: ");
+                                    }
                            }
                   }
          }
-         
-         private boolean validarJugada(String entrada) {
-                  boolean valida;
-                  if(entrada.length() > 4 || (entrada.length()==4 && !partida.getConfig().esLargoVariable()) ){
-                        valida = false;
+
+         private String imprimirColor() {
+                  String color;
+                  if (this.partida.getTurno() == 'B') {
+                           color = "Blanco";
                   } else {
-                           // Las conidiciones son negativas, es decir, si la cumplen no me sirve y deja de ser valida la entrada
-                           char col  = entrada.charAt(0);
-                           char fila = entrada.charAt(1);
-                           char dir  = entrada.charAt(2); 
-                           valida = !( (col < 'A' || col > 'M')  || (fila < '1' || fila > '7') || ("QEDCZA".indexOf(dir) == -1) ); 
-                           if (entrada.length() == 4) {
-                                    char largo = entrada.charAt(3);
-                                    valida = !(largo < '1' || largo > '4') ;
-                           } 
+                           color = "Negro";
                   }
-                  return valida;
+                  return color;
+         }
+
+         private String mostrarHistorial(){
+             return null; 
          }
          
          private void mostrarResultados() {
-                  if (partida.getGanador() != null) {
-                           Consola.println("¡Ganó " + partida.getGanador().getNombre() + "!");
+                  if (this.partida.getGanador() != null) {
+                           Consola.println("¡Ganó " + this.partida.getGanador().getNombre() + "!");
                            //FALTA IMPLEMENTAR EFECTO CONFETI
                   } else {
                            Consola.println("Empate.");
                   }
-         }
-         
-         
-
-         private void mostrarHistorial() {
-                  throw new UnsupportedOperationException("Not supported yet."); 
          }
 
 }

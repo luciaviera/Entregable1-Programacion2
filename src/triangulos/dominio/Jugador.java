@@ -1,7 +1,5 @@
 package triangulos.dominio;
 
-import java.util.Objects;
-
 public class Jugador {
 
     
@@ -27,7 +25,7 @@ public class Jugador {
          
          //Constructor
          public Jugador(String nombre, int edad) {
-                    this.nombre = Objects.requireNonNull(nombre).trim();
+                    this.nombre = nombre;
                     if (this.nombre.isEmpty()) throw new IllegalArgumentException("Nombre no puede estar vacío");
                     if (edad < 1 || edad > 120)    throw new IllegalArgumentException("Edad fuera de rango");
                     this.edad = edad;
@@ -35,21 +33,16 @@ public class Jugador {
          
          @Override
          public boolean equals(Object o) {
-                   if (this == o) return true;
-                   if (!(o instanceof Jugador)) return false;
-                   Jugador otro = (Jugador) o;
-                   return nombre.equalsIgnoreCase(otro.nombre);
-         }
-
-         @Override
-         public int hashCode() {
-                  // Debe usarse la misma base que equals:
-                  return nombre.toLowerCase().hashCode();
+                  boolean iguales = false;
+                  Jugador otro = (Jugador) o;
+                  if (this.nombre.equalsIgnoreCase(otro.getNombre())) iguales = true;
+                  return iguales;
          }
 
          @Override
          public String toString() {
-                  return "%s (%d años)".formatted(nombre, edad);
+                  String str = this.getNombre() + " (" + this.getEdad() +" AÑOS) ";
+                  return str;
          }
 }
          
