@@ -1,7 +1,7 @@
 package triangulos.dominio;
 
 //Crea jugadas que el programa pueda entender (no implica que se pueda colocar la banda en el tablero)
-class Movimiento {
+public class Movimiento {
 
          private Punto origen;
          private char dir;
@@ -52,6 +52,9 @@ class Movimiento {
                   return this.largo; 
          }
          
+         @Override
+         public String toString() {
+                  return this.origen.toString() + dir + largo;
+         }
         
-         
 }
